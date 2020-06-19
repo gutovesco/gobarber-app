@@ -1,4 +1,6 @@
 import styled from 'styled-components/native'
+import {Provider} from './index'
+import {FlatList} from 'react-native'
 
 export const Container = styled.View`
 flex: 1;
@@ -33,3 +35,6 @@ width: 56px;
 height: 56px;
 border-radius: 28px;
 `;
+
+export const ProvidersList = styled(
+  FlatList as new () => FlatList<Provider>)``;
