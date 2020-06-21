@@ -1,9 +1,23 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Button } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather'
 import { useAuth } from '../../hooks/auth';
-import { Container, Header, BackButton, HeaderTitle, UserAvatar, ProvidersListContainer, ProvidersList, ProviderContainer, ProviderAvatar, ProviderName } from './styles'
+import {
+  Container,
+  Header,
+  BackButton,
+  HeaderTitle,
+  UserAvatar,
+  ProvidersListContainer,
+  ProvidersList,
+  ProviderContainer,
+  ProviderAvatar,
+  ProviderName,
+  Calendar,
+  Title,
+  OpenDatePickerButton,
+  OpenDatePickerButtonText } from './styles'
 import api from '../../services/api';
 
 interface RouteParams {
@@ -24,6 +38,7 @@ const CreateAppointment: React.FC = () => {
 
   const [providers, setProviders] = useState<Provider[]>([])
   const [selectedProvider, setSelectedProvider] = useState(providerId)
+  const [showDatePicker, setShowDatePicker] = useState(true)
 
   useEffect(() => {
     api.get('providers').then(response => {
@@ -38,6 +53,11 @@ const CreateAppointment: React.FC = () => {
   const handleSelectProvider = useCallback((id: string) => {
     setSelectedProvider(id)
   }, [])
+
+  const handleOpenDatePicker = useCallback(() => {
+    setShowDatePicker(true)
+    console.log(showDatePicker)
+  }, [setShowDatePicker])
 
   return (
     <Container>
@@ -60,6 +80,19 @@ const CreateAppointment: React.FC = () => {
             </ProviderContainer>
           )} />
       </ProvidersListContainer>
+
+      <Calendar>
+        <Title>Escolha a data</Title>
+        <OpenDatePickerButton onPress={() => setShowDatePicker(true)}>
+          <OpenDatePickerButtonText>Selecionar outra data</OpenDatePickerButtonText>
+        </OpenDatePickerButton>
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={new Date()}
+          is24Hour={true}
+          display="default"
+        />
+      </Calendar>
     </Container>
   );
 };
