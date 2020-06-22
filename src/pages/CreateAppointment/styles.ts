@@ -65,3 +65,26 @@ font-family: 'RobotoSlab-Medium';
 font-size: 16px;
 color: #f4ede8;
 `;
+
+export const Title = styled.Text`
+font-family: 'RoboSlab-Medium';
+color: #f4ede8;
+font-size: 24px;
+margin: 0 24px 24px;
+`;
+
+export const Calendar = styled.View``;
+
+export const OpenDatePickerButton = styled(RectButton)`
+height: 46px;
+background: #ff9000;
+border-radius: 10px;
+align-items: center;
+margin: 0 24px;
+justify-content: center;
+`;
+
+export const OpenDatePickerButtonText= styled.Text`
+font-size: 16px;
+color: #f4ede8;
+`;
