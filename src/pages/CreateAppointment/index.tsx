@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import {Platform} from 'react-native'
 import Icon from 'react-native-vector-icons/Feather'
@@ -20,6 +20,7 @@ import {
   OpenDatePickerButton,
   OpenDatePickerButtonText
 } from './styles'
+import {format} from 'date-fns'
 import api from '../../services/api';
 
 interface RouteParams {
@@ -89,6 +90,26 @@ const CreateAppointment: React.FC = () => {
     }
   }, [])
 
+  const morningAvailaility = useMemo(() => {
+    return availability.filter(({hour}) =>  hour < 12).map(({hour, available}) => {
+      return {
+        hour,
+        available,
+        hourFormated: format(new Date().setHours(hour), 'HH:00')
+      }
+    })
+  }, [availability])
+
+  const afternoonAvailaility = useMemo(() => {
+    return availability.filter(({hour}) =>  hour >= 12).map(({hour, available}) => {
+      return {
+        hour,
+        available,
+        hourFormated: format(new Date().setHours(hour), 'HH:00')
+      }
+    })
+  }, [availability])
+
   return (
     <Container>
       <Header>
@@ -118,6 +139,10 @@ const CreateAppointment: React.FC = () => {
         </OpenDatePickerButton>
         {showDateTimePicker && (<DateTimePicker mode="date" onChange={() => handleDateChanged} value={selectedDate} display="calendar" textColor="#f4ede8"/>)}
       </Calendar>
+
+      {morningAvailaility.map(({hourFormated}) => (
+        <Title key={hourFormated}>{hourFormated}</Title>
+      ))}
 
     </Container>
   );
